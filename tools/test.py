@@ -21,6 +21,7 @@ def eval_all(args, config, network):
     misc_utils.ensure_dir(evalDir)
     model_file = os.path.join(saveDir, 
             'dump-{}.pth'.format(args.resume_weights))
+    print(model_file)
     assert os.path.exists(model_file)
     # get devices
     str_devices = args.devices
@@ -50,7 +51,7 @@ def eval_all(args, config, network):
     pbar.close()
     for p in procs:
         p.join()
-    fpath = os.path.join(evalDir, 'dump-{}.json'.format(args.resume_weights))
+    fpath = os.path.join(evalDir, 'dump-19-{}.json'.format(args.resume_weights))
     misc_utils.save_json_lines(all_results, fpath)
     # evaluation
     eval_path = os.path.join(evalDir, 'eval-{}.json'.format(args.resume_weights))
@@ -135,6 +136,7 @@ def boxes_dump(boxes):
                    'tag':int(box[4])} for box in boxes]
     else:
         raise ValueError('Unknown box dim.')
+    print(result)
     return result
 
 def run_test():

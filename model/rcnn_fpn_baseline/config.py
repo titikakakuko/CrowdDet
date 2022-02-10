@@ -7,17 +7,28 @@ def add_path(path):
     if path not in sys.path:
         sys.path.insert(0, path)
 
-root_dir = '../../'
+root_dir = '../'
 add_path(os.path.join(root_dir))
 add_path(os.path.join(root_dir, 'lib'))
 
 class Crowd_human:
     class_names = ['background', 'person']
     num_classes = len(class_names)
-    root_folder = '/data/CrowdHuman'
-    image_folder = '/data/CrowdHuman/images'
-    train_source = os.path.join('/data/CrowdHuman/annotation_train.odgt')
-    eval_source = os.path.join('/data/CrowdHuman/annotation_val.odgt')
+
+    # root_folder = '/data/CrowdHuman'
+    # train_source = os.path.join('/data/CrowdHuman/annotation_train.odgt')
+    # eval_source = os.path.join('/data/CrowdHuman/annotation_val.odgt')
+
+    # root_folder = 'E:/2dTracking/CrowdDet-master/lib/data/CrowdHuman'
+    root_folder = os.path.join(root_dir, 'lib/data/CrowdHuman')
+    image_folder = 'C:/Users/yinuowang3/Downloads/FOV02/20190416/19'
+    # train_source = os.path.join('E:/2dTracking/CrowdDet-master/lib/data/CrowdHuman/annotation_train.odgt')
+    train_source = os.path.join(os.path.join(root_folder, 'annotation_train.odgt'))
+    # eval_source = os.path.join('E:/2dTracking/CrowdDet-master/lib/data/CrowdHuman/annotation_red.odgt')
+    eval_source = os.path.join(os.path.join(root_folder, 'annotation_19.odgt'))
+    
+    # {"ID": "20190416190002", "gtboxes": [{"fbox": [], "tag": "person", "hbox": [], "extra": {"box_id": 0, "occ": 0}, "vbox": [], "head_attr": {"ignore": 0, "occ": 0, "unsure": 0}}}]}
+
 
 class Config:
     output_dir = 'outputs'

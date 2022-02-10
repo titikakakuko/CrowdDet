@@ -5,9 +5,11 @@ import numpy as np
 def load_img(image_path):
     import cv2
     img = cv2.imread(image_path, cv2.IMREAD_COLOR)
+    # img=cv2.imread(image_files[f_idx])
     return img
 
 def load_json_lines(fpath):
+    print(fpath)
     assert os.path.exists(fpath)
     with open(fpath,'r') as fid:
         lines = fid.readlines()
@@ -74,6 +76,8 @@ def load_masks(dict_input, key_name, key_box):
     return masks
 
 def load_gt(dict_input, key_name, key_box, class_names):
+    # if len(dict_input)<1:
+    #     return np.empty([0, 5])
     assert key_name in dict_input
     if len(dict_input[key_name]) < 1:
         return np.empty([0, 5])

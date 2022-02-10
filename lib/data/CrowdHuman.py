@@ -1,6 +1,5 @@
 import os
-import cv2
-import torch
+import glob, cv2, torch
 import numpy as np
 
 from utils import misc_utils
@@ -22,6 +21,7 @@ class CrowdHuman(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
         return self.load_record(self.records[index])
+        # return self.load_record(index)
 
     def __len__(self):
         return len(self.records)
@@ -32,8 +32,11 @@ class CrowdHuman(torch.utils.data.Dataset):
         else:
             if_flap = False
         # image
-        image_path = os.path.join(self.config.image_folder, record['ID']+'.png')
-        image = misc_utils.load_img(image_path)
+        image_path = os.path.join(self.config.image_folder, record['ID']+'.jpg')
+        print('image path=', image_path)
+        image_files = sorted(glob.glob(os.path.join(self.config.image_folder, '*.jpg')))
+        # image = misc_utils.load_img(image_files, index)
+        image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         image_h = image.shape[0]
         image_w = image.shape[1]
         if if_flap:

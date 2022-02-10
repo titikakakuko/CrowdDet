@@ -1,12 +1,13 @@
 import os
 import sys
 import cv2
+import numpy as np
 import argparse
 
 sys.path.insert(0, '../lib')
 from utils import misc_utils, visual_utils
 
-img_root = '/data/CrowdHuman/images/'
+img_root = 'C:/Users/yinuowang3/Downloads/FOV02/20190416/19/'
 def eval_all(args):
     # json file
     assert os.path.exists(args.json_file), "Wrong json path!"
@@ -24,11 +25,26 @@ def eval_all(args):
         len_gt = len(gtboxes)
         line = "{}: dt:{}, gt:{}.".format(record['ID'], len_dt, len_gt)
         print(line)
-        img_path = img_root + record['ID'] + '.png'
+        img_path = img_root + record['ID'] + '.jpg'
         img = misc_utils.load_img(img_path)
+
+        width = img.shape[1]
+        height = img.shape[0]
+        bboxes=[]
+        for i in range(len(dtboxes)):
+            one_box = dtboxes[i]
+            print(one_box)
+            one_box = np.array([max(one_box[0], 0), max(one_box[1], 0),
+                        min(one_box[2], width - 1), min(one_box[3], height - 1)])
+            print(one_box)
+            x1,y1,x2,y2 = np.array(one_box[:4]).astype(int)
+            bbox=[x1,y1,x2,y2,'person',float(dtboxes[i][4])]
+            bboxes.append(bbox)
+        print('bboxes: ', bboxes)
+
         visual_utils.draw_boxes(img, dtboxes, line_thick=1, line_color='blue')
-        visual_utils.draw_boxes(img, gtboxes, line_thick=1, line_color='white')
-        fpath = 'outputs/{}.png'.format(record['ID'])
+        # visual_utils.draw_boxes(img, gtboxes, line_thick=1, line_color='white')
+        fpath = 'outputs-19/{}.jpg'.format(record['ID'])
         cv2.imwrite(fpath, img)
 
 
@@ -42,3 +58,5 @@ def run_eval():
 
 if __name__ == '__main__':
     run_eval()
+
+    
